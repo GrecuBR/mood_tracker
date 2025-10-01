@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-half">
+        <div class="box">
+            <h2 class="title is-4 has-text-centered has-text-primary">➕ Add Mood Entry</h2>
+            <form method="POST" novalidate>
+        <div class="field">
+            <label class="label" for="date">Date <span class="has-text-danger">*</span></label>
+            <div class="control">
+                <input class="input" type="datetime-local" id="date" name="date" required aria-label="Date and Time" />
+
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label" for="mood">Mood <span class="has-text-danger">*</span></label>
+            <div class="control">
+                <div class="select is-fullwidth">
+                    <select id="mood" name="mood" required aria-label="Mood">
+                        <option value="" disabled selected>Select your mood</option>
+                        <option value="Happy">😊 Happy</option>
+                        <option value="Sad">😢 Sad</option>
+                        <option value="Angry">😠 Angry</option>
+                        <option value="Excited">🤩 Excited</option>
+                        <option value="Calm">😌 Calm</option>
+                    </select>
+                </div>
+        </div>
+        </div>
+
+        <div class="field">
+            <label class="label" for="note">Reflection</label>
+            <div class="control">
+                <textarea class="textarea" id="note" name="note" placeholder="Write your thoughts..." rows="4"></textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-primary is-fullwidth" type="submit">Save</button>
+            </div>
+        </div>
+        </form>
+        </div>
+        </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('form');
+        const modal = document.getElementById('loading-modal');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const deleteToast = toast.querySelector('.delete');
+
+        deleteToast.addEventListener('click', () => {
+            toast.classList.add('is-hidden');
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            modal.classList.add('is-active');
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/add', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                modal.classList.remove('is-active');
+
+                toast.classList.remove('is-hidden', 'is-success', 'is-danger');
+                toast.classList.add(data.success ? 'is-success' : 'is-danger');
+                toastMessage.textContent = data.message;
+
+                if (data.success) {
+                    form.reset();
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                }
+
+            } catch (err) {
+                modal.classList.remove('is-active');
+                toast.classList.remove('is-hidden', 'is-success');
+                toast.classList.add('is-danger');
+                toastMessage.textContent = 'An error occurred. Please try again.';
+            }
+        });
+    });
+</script>
+{% endblock %}

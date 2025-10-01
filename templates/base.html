@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mood Tracker</title>
+
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* --- Funky Theme --- */
+    body.theme-funky {
+      font-family: 'Permanent Marker', cursive;
+      background: linear-gradient(135deg, #ff79c6, #8be9fd);
+      color: #222;
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+    .theme-funky .navbar-menu {
+  background-color: #bd93f9; /* same as navbar bg */
+}
+
+    .theme-funky .navbar {
+      background-color: #bd93f9 !important;
+      box-shadow: 0 4px 15px rgba(189, 147, 249, 0.5);
+    }
+
+    .theme-funky .navbar .navbar-item,
+    .theme-funky .navbar .navbar-link {
+      font-weight: 700;
+      color: #fff !important;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .theme-funky .navbar .navbar-item:hover {
+      background-color: #ff79c6 !important;
+      color: #222 !important;
+    }
+
+    .theme-funky .button.is-primary {
+      background-color: #50fa7b;
+      color: #222;
+      font-weight: 700;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px #50fa7baa;
+    }
+
+    .theme-funky .button.is-primary:hover {
+      background-color: #38ef7d;
+      box-shadow: 0 6px 14px #38ef7daa;
+      color: #fff;
+    }
+
+    .theme-funky .box {
+      background: #f8f8f8cc;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border: 3px solid #bd93f9;
+    }
+
+    .theme-funky .notification.is-warning {
+      background-color: #ffb86c;
+      color: #222;
+      font-weight: 700;
+      border-left: 6px solid #ff79c6;
+      text-shadow: 0 1px 0 #fff;
+    }
+
+    /* --- Professional Theme --- */
+    body.theme-professional{
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f7fa;
+      color: #2b2b2b;
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+    .theme-professional .navbar-menu {
+  background-color: #004d99;
+}
+
+    .theme-professional .navbar {
+      background-color: #004d99 !important;
+      box-shadow: none;
+    }
+
+    .theme-professional .navbar .navbar-item,
+    .theme-professional .navbar .navbar-link {
+      color: #e0e6f1 !important;
+      font-weight: 600;
+    }
+
+    .theme-professional .navbar .navbar-item:hover {
+      background-color: #003366 !important;
+      color: #ffffff !important;
+    }
+
+    .theme-professional .button.is-primary {
+      background-color: #004d99;
+      border-color: transparent;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+      box-shadow: none;
+      color: #fff;
+    }
+
+    .theme-professional .button.is-primary:hover {
+      background-color: #003366;
+      color: #fff;
+    }
+
+    .theme-professional .box {
+      box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+      border-radius: 8px;
+      padding: 2rem;
+      border: none;
+      background: #fff;
+    }
+
+    .theme-professional .notification.is-warning {
+      background-color: #fff4e5;
+      color: #663c00;
+      border-left: 5px solid #ffba00;
+      font-weight: 600;
+      text-shadow: none;
+    }
+
+    /* --- Dark Theme --- */
+    body.theme-dark {
+      font-family: 'Roboto', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+    .theme-dark .navbar-menu {
+  background-color: #1f1f1f;
+}
+
+    .theme-dark .navbar {
+      background-color: #1f1f1f !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .theme-dark .navbar .navbar-item,
+    .theme-dark .navbar .navbar-link {
+      color: #ffffff !important;
+      font-weight: 500;
+    }
+
+    .theme-dark .navbar .navbar-item:hover {
+      background-color: #333333 !important;
+      color: #ffffff !important;
+    }
+
+    .theme-dark .button.is-primary {
+      background-color: #333333;
+      color: #e0e0e0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      border: 1px solid #444;
+    }
+
+    .theme-dark .button.is-primary:hover {
+      background-color: #555555;
+      color: #fff;
+    }
+
+    .theme-dark .box {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+      border-radius: 8px;
+      padding: 2rem;
+      border: 1px solid #444;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    .theme-dark .notification.is-warning {
+      background-color: #333;
+      color: #ffcc00;
+      border-left: 5px solid #ffaa00;
+    }
+
+
+    /* Theme selector styling */
+    .theme-selector {
+      margin-left: 1rem;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar mb-5" role="navigation" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{{ url_for('dashboard') }}">Mood Tracker</a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navMenu" class="navbar-menu">
+        <div class="navbar-end">
+          {% if session.get('username') %}
+          <a href="{{ url_for('dashboard') }}" class="navbar-item">📊 Dashboard</a>
+          <a href="{{ url_for('add_entry') }}" class="navbar-item">📝 Add Entry</a>
+          <a href="{{ url_for('export_csv') }}" class="navbar-item">📁 Export</a>
+          <a href="{{ url_for('delete_account') }}" class="navbar-item has-text-danger">🗑️ Delete Account</a>
+          <a href="{{ url_for('logout') }}" class="navbar-item has-text-danger has-text-weight-bold ml-3">
+            🚪 Logout
+          </a>
+          
+          {% else %}
+          <a href="{{ url_for('login') }}" class="navbar-item">🔐 Login</a>
+          <a href="{{ url_for('register') }}" class="navbar-item">🆕 Register</a>
+          {% endif %}
+
+          <!-- Theme Selector -->
+          <div class="navbar-item theme-selector">
+            <div class="select">
+              <select id="theme-selector" aria-label="Select Theme">
+                <option value="funky">🎉 Funky</option>
+                <option value="professional">💼 Professional</option>
+                <option value="dark">🌙 Dark</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Flash messages -->
+  <section class="section">
+    <div class="container">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="notification is-warning is-light">
+        <button class="delete"></button>
+        {{ messages[0] }}
+      </div>
+      {% endif %}
+      {% endwith %}
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="section">
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Navbar burger toggle for mobile
+      const burgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+      burgers.forEach(el => {
+        el.addEventListener('click', () => {
+          const target = el.dataset.target;
+          const menu = document.getElementById(target);
+          el.classList.toggle('is-active');
+          menu.classList.toggle('is-active');
+        });
+      });
+
+      // Flash message delete button
+      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        const $notification = $delete.parentNode;
+        $delete.addEventListener('click', () => {
+          $notification.parentNode.removeChild($notification);
+        });
+      });
+
+      // Theme selector logic
+      const themeSelector = document.getElementById('theme-selector');
+
+      // Load saved theme from localStorage or default to funky
+      const savedTheme = localStorage.getItem('selectedTheme') || 'funky';
+      document.body.classList.add(`theme-${savedTheme}`);
+      themeSelector.value = savedTheme;
+
+      themeSelector.addEventListener('change', (e) => {
+        // Remove old theme classes
+        document.body.classList.remove('theme-funky', 'theme-professional', 'theme-dark');
+
+
+        // Add new theme class
+        const selected = e.target.value;
+        document.body.classList.add(`theme-${selected}`);
+
+        // Save selection to localStorage
+        localStorage.setItem('selectedTheme', selected);
+      });
+    });
+  </script>
+  <!-- Spinner Modal -->
+  <div id="loading-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content has-text-centered">
+      <button class="button is-loading is-large is-primary is-light" disabled>Submitting...</button>
+    </div>
+  </div>
+  
+  <!-- Toast Notification -->
+  <div id="toast" class="notification is-hidden" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">
+    <button class="delete"></button>
+    <span id="toast-message"></span>
+  </div>
+
+</body>
+
+</html>

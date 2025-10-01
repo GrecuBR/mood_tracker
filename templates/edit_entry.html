@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-half">
+        <div class="box">
+            <header class="has-background-success has-text-white p-3 mb-4 has-text-centered">
+                <h2 class="title is-4 mb-0">✏️ Edit Entry</h2>
+            </header>
+            <form id="edit-form" method="POST" novalidate>
+        <div class="field">
+            <label class="label" for="date">Date <span class="has-text-danger">*</span></label>
+            <div class="control">
+                <!-- <input class="input" type="date" id="date" name="date" value="{{ entry[0] }}" required aria-label="Date" /> -->
+                <input class="input" type="datetime-local" id="date" name="date" value="{{ entry[0] }}" required
+                  aria-label="Date and Time" />
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label" for="mood">Mood <span class="has-text-danger">*</span></label>
+            <div class="control">
+                <div class="select is-fullwidth">
+                    <select id="mood" name="mood" required aria-label="Mood">
+                        <option value="Happy" {% if entry[1]=='Happy' %}selected{% endif %}>😀 Happy</option>
+                        <option value="Sad" {% if entry[1]=='Sad' %}selected{% endif %}>😢 Sad</option>
+                        <option value="Angry" {% if entry[1]=='Angry' %}selected{% endif %}>😠 Angry</option>
+                        <option value="Excited" {% if entry[1]=='Excited' %}selected{% endif %}>🤩 Excited</option>
+                        <option value="Calm" {% if entry[1]=='Calm' %}selected{% endif %}>😌 Calm</option>
+                    </select>
+                </div>
+        </div>
+        </div>
+
+        <div class="field">
+            <label class="label" for="note">Reflection</label>
+            <div class="control">
+                <textarea class="textarea" id="note" name="note" rows="4"
+                    placeholder="Write your thoughts...">{{ entry[2] }}</textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-success is-fullwidth" type="submit">Update</button>
+            </div>
+        </div>
+        </form>
+        </div>
+        </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('edit-form');
+      const modal = document.getElementById('loading-modal');
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      const deleteToast = toast.querySelector('.delete');
+  
+      deleteToast.addEventListener('click', () => {
+        toast.classList.add('is-hidden');
+      });
+  
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+  
+        modal.classList.add('is-active');
+  
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        const actionUrl = window.location.pathname;
+  
+        try {
+          const res = await fetch(actionUrl, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json'
+            },
+            body: formData
+          });
+  
+          const result = await res.json();
+          modal.classList.remove('is-active');
+  
+          toast.classList.remove('is-hidden', 'is-success', 'is-danger');
+          toast.classList.add(result.success ? 'is-success' : 'is-danger');
+          toastMessage.textContent = result.message || 'Update complete.';
+  
+          if (result.success) {
+            setTimeout(() => {
+              window.location.href = '/dashboard'; // redirect after short delay
+            }, 1200);
+          }
+  
+        } catch (err) {
+          modal.classList.remove('is-active');
+          toast.classList.remove('is-hidden', 'is-success');
+          toast.classList.add('is-danger');
+          toastMessage.textContent = 'Something went wrong.';
+        }
+      });
+    });
+  </script>
+  
+{% endblock %}

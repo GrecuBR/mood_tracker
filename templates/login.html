@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="columns is-centered">
+<div class="column is-one-third">
+    <div class="box">
+        <h2 class="title is-4 has-text-centered mb-4">Login</h2>
+    <form id="login-form" method="POST" novalidate>
+        <div class="field">
+        <label class="label" for="username">Username</label>
+        <div class="control">
+            <input class="input" type="text" id="username" name="username" placeholder="Enter username" required />
+        </div>
+        </div>
+
+        <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="control">
+            <input class="input" type="password" id="password" name="password" placeholder="Enter password" required />
+        </div>
+        </div>
+
+        <div class="field">
+        <div class="control">
+            <button class="button is-primary is-fullwidth" type="submit">Login</button>
+        </div>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('login-form');
+        const modal = document.getElementById('loading-modal');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const deleteToast = toast.querySelector('.delete');
+
+        deleteToast.addEventListener('click', () => {
+            toast.classList.add('is-hidden');
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            modal.classList.add('is-active');
+
+            const formData = new FormData(form);
+
+            try {
+                const res = await fetch(window.location.pathname, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                const result = await res.json();
+                modal.classList.remove('is-active');
+
+                toast.classList.remove('is-hidden', 'is-success', 'is-danger');
+                toast.classList.add(result.success ? 'is-success' : 'is-danger');
+                toastMessage.textContent = result.message || (result.success ? 'Login successful' : 'Login failed');
+
+                if (result.success) {
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1200);
+                }
+
+            } catch (err) {
+                modal.classList.remove('is-active');
+                toast.classList.remove('is-hidden', 'is-success');
+                toast.classList.add('is-danger');
+                toastMessage.textContent = 'Something went wrong.';
+            }
+        });
+    });
+</script>
+{% endblock %}
